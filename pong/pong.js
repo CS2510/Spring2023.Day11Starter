@@ -8,7 +8,7 @@ let reset = true
 class PersistentPointsComponent extends Component {
     name = "PersistentPointsComponent"
     points = 0
-    start(){
+    start() {
         // if(GameObject.getObjectByName("PersistentPointsGameObject") != this.parent){
         //     this.parent.destroy();
         //     console.log("Removing duplicate persistent points component");
@@ -28,7 +28,7 @@ class StartController extends Component {
         this.freezeTime = 0
         this.maxFreezeTime = 1
         GameObject.getObjectByName("PersistentPointsGameObject").doNotDestroyOnLoad()
-        
+
     }
     update() {
         this.freezeTime += 25 / 1000
@@ -37,7 +37,7 @@ class StartController extends Component {
         }
 
     }
-    
+
 }
 
 class ScoreSetterComponent extends Component {
@@ -60,8 +60,19 @@ class ScoreSetterComponent extends Component {
     }
 }
 
+class StartCameraComponent extends Component {
+    start() {
+
+    }
+    update() {
+        // this.parent.transform.x += 1;
+        // this.parent.transform.sx = 10;
+        // this.parent.transform.sy = 10;
+    }
+}
+
 class StartScene extends Scene {
-    constructor(){
+    constructor() {
         super("black")
     }
     start() {
@@ -69,11 +80,24 @@ class StartScene extends Scene {
         this.addGameObject(new GameObject("PersistentPointsGameObject").addComponent(new PersistentPointsComponent()))
         this.addGameObject(new GameObject("WelcomeToPongGameObject").addComponent(new Text("Welcome to Pong", "white")), new Vector2(15, 20))
         this.addGameObject(new GameObject("MaxScoreGameObject").addComponent(new Text("", "white")).addComponent(new ScoreSetterComponent()), new Vector2(15, 45))
+        Camera.main.addComponent(new StartCameraComponent());
     }
 }
 
 //-----------------------------------------------------
 //Main
+
+class MainCameraComponent extends Component{
+    start(){
+
+    }
+    update(){
+        this.transform.x = 75;
+         this.transform.y = 75;
+         this.transform.sx = 3;
+         this.transform.sy = 3;
+    }
+}
 
 class MainController extends Component {
     start() {
@@ -119,9 +143,9 @@ class PointsComponent extends Component {
         if (eventName == "Rebound") {
             this.points++;
             let persistentPointsComponent = GameObject
-            .getObjectByName("PersistentPointsGameObject")
-            .getComponent("PersistentPointsComponent")
-            if(this.points > persistentPointsComponent.points){
+                .getObjectByName("PersistentPointsGameObject")
+                .getComponent("PersistentPointsComponent")
+            if (this.points > persistentPointsComponent.points) {
                 persistentPointsComponent.updatePoints(this.points)
             }
         }
@@ -129,7 +153,7 @@ class PointsComponent extends Component {
     update() {
         this.parent.getComponent("Text").string = "Game Points: " + this.points;
     }
-   
+
 }
 
 class BallComponent extends Component {
@@ -231,7 +255,7 @@ class WallsComponent extends Component {
 }
 
 class MainScene extends Scene {
-    constructor(){
+    constructor() {
         super("green")
     }
     start() {
@@ -250,6 +274,7 @@ class MainScene extends Scene {
         this.addGameObject(new GameObject("PaddleGameObject").addComponent(new PaddleComponent()))
         this.addGameObject(new GameObject("WallsGameObject").addComponent(new WallsComponent()))
         this.addGameObject(new GameObject("ControllerGameObject").addComponent(new MainController()))
+        Camera.main.addComponent(new MainCameraComponent());
     }
 }
 
@@ -265,7 +290,7 @@ class EndController extends Component {
 }
 
 class EndScene extends Scene {
-    constructor(){
+    constructor() {
         super("Black")
     }
     start() {

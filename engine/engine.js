@@ -147,7 +147,7 @@ function engineUpdate() {
     for (let gameObject of scene.gameObjects) {
         for (let component of gameObject.components) {
             if (component.update) {
-                component.update()
+                component.update(ctx)
             }
         }
     }
@@ -166,6 +166,16 @@ function engineDraw() {
 
     let scene = SceneManager.getActiveScene()
 
+    //Adjust for the camera
+    ctx.fillStyle = Camera.main.getComponent("Camera").fillStyle;
+    ctx.fillRect(0,0,ctx.canvas.width, ctx.canvas.height);
+
+    ctx.save();
+    ctx.translate(ctx.canvas.width/2,ctx.canvas.height/2)
+    ctx.scale(Camera.main.transform.sx, Camera.main.transform.sy);
+    ctx.translate(-Camera.main.transform.x, -Camera.main.transform.y);
+
+
     //Loop through the components and draw them.
     for (let gameObject of scene.gameObjects) {
         for (let component of gameObject.components) {
@@ -175,13 +185,16 @@ function engineDraw() {
         }
     }
 
+    ctx.restore();
+
     //Draw debugging information
     let debug = true;
     if(debug){
         let y = 320;
         for(let gameObject of scene.gameObjects){
             ctx.fillStyle = "white"
-            ctx.fillText(gameObject.name, 50, y);
+            let string = gameObject.name + " (" + gameObject.transform.x + "," + gameObject.transform.y +")"
+            ctx.fillText(string, 50, y);
             y+= 20;
         }
     }
