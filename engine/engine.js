@@ -98,7 +98,7 @@ function engineUpdate() {
         let camera = scene.gameObjects[0]
         scene.gameObjects = []
         scene.gameObjects.push(camera)
-
+        
         //Loop through the objects from the previous scene
         //so can preserve some
         let previousScene = SceneManager.getPreviousScene()
@@ -109,7 +109,7 @@ function engineUpdate() {
                 }
             }
         }
-
+        
         scene.start()
         SceneManager.changedSceneFlag = false
     }
@@ -172,6 +172,17 @@ function engineDraw() {
             if (component.draw) {
                 component.draw(ctx)
             }
+        }
+    }
+
+    //Draw debugging information
+    let debug = true;
+    if(debug){
+        let y = 320;
+        for(let gameObject of scene.gameObjects){
+            ctx.fillStyle = "white"
+            ctx.fillText(gameObject.name, 50, y);
+            y+= 20;
         }
     }
 }

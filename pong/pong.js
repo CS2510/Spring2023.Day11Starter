@@ -9,7 +9,13 @@ class PersistentPointsComponent extends Component {
     name = "PersistentPointsComponent"
     points = 0
     start(){
-        
+        // if(GameObject.getObjectByName("PersistentPointsGameObject") != this.parent){
+        //     this.parent.destroy();
+        //     console.log("Removing duplicate persistent points component");
+        // }
+        // else{
+        //     console.log("Only one persistent points component. Move on.")
+        // }
     }
     updatePoints(points) {
         this.points = points;
@@ -263,8 +269,8 @@ class EndScene extends Scene {
         super("Black")
     }
     start() {
-        this.addGameObject(new GameObject().addComponent(new EndController()))
-        this.addGameObject(new GameObject().addComponent(new Text("You Died", "red")), new Vector2(15, 20))
+        this.addGameObject(new GameObject("EndControllerGameObject").addComponent(new EndController()))
+        this.addGameObject(new GameObject("EndTextGameObject").addComponent(new Text("You Died", "red")), new Vector2(15, 20))
         this.addGameObject(
             new GameObject("MaxPointsGameObject")
                 .addComponent(new ScoreSetterComponent())
