@@ -9,16 +9,7 @@ class PersistentPointsComponent extends Component {
     name = "PersistentPointsComponent"
     points = 0
     start(){
-        console.log(document.cookie)
-        if(reset){
-            document.cookie = "_"
-        }
-        if(document.cookie == "_"){
-            this.updatePoints(0)
-        }
-        else{
-            this.updatePoints(document.cookie)
-        }
+        
     }
     updatePoints(points) {
         this.points = points;
@@ -31,7 +22,7 @@ class StartController extends Component {
         this.freezeTime = 0
         this.maxFreezeTime = 1
         GameObject.getObjectByName("PersistentPointsGameObject").doNotDestroyOnLoad()
-        //To Add -> Make PersistentPointsComponent persistent
+        
     }
     update() {
         this.freezeTime += 25 / 1000
