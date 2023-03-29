@@ -13,8 +13,8 @@ import "./Vector2.js"
 //True if the gamee is paused, false otherwise
 let pause = false
 
-let aspectRatio = 16 / 9;
-let logicalWidth = 16/9*150;
+//Add an aspect ratio
+//Add logical coordinates
 
 //Handle favicon
 const link = document.createElement("link");
@@ -173,31 +173,16 @@ function engineDraw() {
     ctx.fillStyle = Camera.main.getComponent("Camera").fillStyle;
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    let canvasAspectRatio = canvas.width / canvas.height;
-    let isTooWide = canvasAspectRatio > aspectRatio;
-
-    let amount = 100;
-    ctx.fillStyle = "gray";
-    let desiredWidth = canvas.width;
-    if (isTooWide) {
-        //Calculate the desired width
-        desiredWidth = canvas.height * aspectRatio;
-    }
-
-
     let scene = SceneManager.getActiveScene()
 
-    //Now setup logical coordinates
-
     ctx.save();
-    ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2)
-    let logicalScale = desiredWidth / logicalWidth;
-    ctx.scale(logicalScale, logicalScale);
-
-    ctx.scale(Camera.main.transform.sx, Camera.main.transform.sy);
-    ctx.translate(-Camera.main.transform.x, -Camera.main.transform.y);
-
-
+    //Now setup logical coordinates
+    //Center the camera
+    //Scale for logical coordinates
+    
+    //Scale for the camera
+    //translate for the camera
+    
     //Loop through the components and draw them.
     for (let gameObject of scene.gameObjects) {
         for (let component of gameObject.components) {
@@ -209,19 +194,9 @@ function engineDraw() {
 
     ctx.restore();
 
-    if (isTooWide) {
-        //Calculate the desired width
-        desiredWidth = canvas.height * aspectRatio;
-        amount = (canvas.width - desiredWidth) / 2;
-        ctx.fillRect(0, 0, amount, canvas.height)
-        ctx.fillRect(canvas.width - amount, 0, amount, canvas.height)
-    }
-    if (!isTooWide) {
-        let desiredHeight = canvas.width / aspectRatio;
-        amount = (canvas.height - desiredHeight) / 2;
-        ctx.fillRect(0, 0, canvas.width, amount)
-        ctx.fillRect(0, canvas.height - amount, canvas.width, amount)
-    }
+    //Check if it's too wide
+    //Calculate the letter boxing amount
+    //Fill the letter boxes
 
     //Draw debugging information
     let debug = false;

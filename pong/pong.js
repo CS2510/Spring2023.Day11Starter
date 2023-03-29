@@ -92,10 +92,10 @@ class MainCameraComponent extends Component{
 
     }
     update(){
-        this.transform.x = 50;
-         this.transform.y = 50;
-        //  this.transform.sx = 3;
-        //  this.transform.sy = 3;
+        this.transform.x = 75;
+         this.transform.y = 75;
+         this.transform.sx = 3;
+         this.transform.sy = 3;
     }
 }
 
@@ -159,7 +159,7 @@ class PointsComponent extends Component {
 class BallComponent extends Component {
     name = "BallComponent"
     start() {
-        this.margin = 0;
+        this.margin = 50;
         this.size = 100;
         this.transform.x = this.margin + this.size / 2 + this.transform.x
         this.transform.y = this.margin + this.size / 2
@@ -182,7 +182,7 @@ class BallComponent extends Component {
         }
         if (this.transform.y > this.margin + this.size) {
             //Check for a collision with the paddle
-            if (true || paddleX - paddleWidth / 2 <= this.transform.x && paddleX + paddleWidth / 2 >= this.transform.x) {
+            if (paddleX - paddleWidth / 2 <= this.transform.x && paddleX + paddleWidth / 2 >= this.transform.x) {
                 this.pongVY *= -1
                 this.updateListeners("Rebound")
             }
@@ -203,7 +203,7 @@ class BallComponent extends Component {
 class PaddleComponent extends Component {
     name = "PaddleComponent"
     start() {
-        this.margin = 0;
+        this.margin = 50;
         this.size = 100;
         this.transform.x = this.margin + this.size / 2
         this.paddleWidth = 40;
@@ -239,7 +239,7 @@ class PaddleComponent extends Component {
 class WallsComponent extends Component {
     name = "WallsComponent"
     start() {
-        this.margin = 0;
+        this.margin = 50;
         this.size = 100;
     }
     draw(ctx) {
@@ -263,13 +263,13 @@ class MainScene extends Scene {
             new GameObject("PointsGameObject")
                 .addComponent(new PointsComponent())
                 .addComponent(new Text("Game Points: 0", "black")),
-            new Vector2(0, -30))
+            new Vector2(15, 17))
 
         this.addGameObject(
             new GameObject("MaxPointsGameObject")
                 .addComponent(new ScoreSetterComponent())
                 .addComponent(new Text("", "black")),
-            new Vector2(0, -5))
+            new Vector2(15, 37))
 
         this.addGameObject(new GameObject("PaddleGameObject").addComponent(new PaddleComponent()))
         this.addGameObject(new GameObject("WallsGameObject").addComponent(new WallsComponent()))
