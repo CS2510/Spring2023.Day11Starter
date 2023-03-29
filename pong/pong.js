@@ -80,7 +80,7 @@ class StartScene extends Scene {
         this.addGameObject(new GameObject("PersistentPointsGameObject").addComponent(new PersistentPointsComponent()))
         this.addGameObject(new GameObject("WelcomeToPongGameObject").addComponent(new Text("Welcome to Pong", "white")), new Vector2(15, 20))
         this.addGameObject(new GameObject("MaxScoreGameObject").addComponent(new Text("", "white")).addComponent(new ScoreSetterComponent()), new Vector2(15, 45))
-        Camera.main.addComponent(new StartCameraComponent());
+        // Camera.main.addComponent(new StartCameraComponent());
     }
 }
 
@@ -274,7 +274,7 @@ class MainScene extends Scene {
         this.addGameObject(new GameObject("PaddleGameObject").addComponent(new PaddleComponent()))
         this.addGameObject(new GameObject("WallsGameObject").addComponent(new WallsComponent()))
         this.addGameObject(new GameObject("ControllerGameObject").addComponent(new MainController()))
-        Camera.main.addComponent(new MainCameraComponent());
+        // Camera.main.addComponent(new MainCameraComponent());
     }
 }
 

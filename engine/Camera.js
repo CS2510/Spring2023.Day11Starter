@@ -26,14 +26,8 @@
      */
     draw(ctx) {
       //Set the fill style
-    //   ctx.fillStyle = this.fillStyle
-      
-  
-    //   // Draw the circle
-    //  ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height)
-    }
-    static get main(){
-      return SceneManager.getActiveScene().gameObjects[0];
+      ctx.fillStyle = this.fillStyle
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }
   }
   

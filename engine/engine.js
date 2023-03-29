@@ -170,8 +170,8 @@ function engineDraw() {
 
 
     //Adjust for the camera
-    ctx.fillStyle = Camera.main.getComponent("Camera").fillStyle;
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // ctx.fillStyle = Camera.main.getComponent("Camera").fillStyle;
+    // ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     let scene = SceneManager.getActiveScene()
 
