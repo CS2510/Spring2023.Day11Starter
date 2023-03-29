@@ -13,6 +13,9 @@ import "./Vector2.js"
 //True if the gamee is paused, false otherwise
 let pause = false
 
+let aspectRatio = 16 / 9;
+let logicalWidth = 16/9*150;
+
 //Handle favicon
 const link = document.createElement("link");
 link.href = "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Ctext%20x='0'%20y='14'%3E🎮%3C/text%3E%3C/svg%3E";
@@ -98,18 +101,18 @@ function engineUpdate() {
         let camera = scene.gameObjects[0]
         scene.gameObjects = []
         scene.gameObjects.push(camera)
-        
+
         //Loop through the objects from the previous scene
         //so can preserve some
         let previousScene = SceneManager.getPreviousScene()
-        if(previousScene){
-            for(let gameObject of previousScene.gameObjects){
-                if(gameObject.markedDoNotDestroyOnLoad){
+        if (previousScene) {
+            for (let gameObject of previousScene.gameObjects) {
+                if (gameObject.markedDoNotDestroyOnLoad) {
                     scene.gameObjects.push(gameObject)
                 }
             }
         }
-        
+
         scene.start()
         SceneManager.changedSceneFlag = false
     }
@@ -164,14 +167,33 @@ function engineDraw() {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
-    let scene = SceneManager.getActiveScene()
+
 
     //Adjust for the camera
     ctx.fillStyle = Camera.main.getComponent("Camera").fillStyle;
-    ctx.fillRect(0,0,ctx.canvas.width, ctx.canvas.height);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    let canvasAspectRatio = canvas.width / canvas.height;
+    let isTooWide = canvasAspectRatio > aspectRatio;
+
+    let amount = 100;
+    ctx.fillStyle = "gray";
+    let desiredWidth = canvas.width;
+    if (isTooWide) {
+        //Calculate the desired width
+        desiredWidth = canvas.height * aspectRatio;
+    }
+
+
+    let scene = SceneManager.getActiveScene()
+
+    //Now setup logical coordinates
 
     ctx.save();
-    ctx.translate(ctx.canvas.width/2,ctx.canvas.height/2)
+    ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2)
+    let logicalScale = desiredWidth / logicalWidth;
+    ctx.scale(logicalScale, logicalScale);
+
     ctx.scale(Camera.main.transform.sx, Camera.main.transform.sy);
     ctx.translate(-Camera.main.transform.x, -Camera.main.transform.y);
 
@@ -187,15 +209,30 @@ function engineDraw() {
 
     ctx.restore();
 
+    if (isTooWide) {
+        //Calculate the desired width
+        desiredWidth = canvas.height * aspectRatio;
+        amount = (canvas.width - desiredWidth) / 2;
+        ctx.fillRect(0, 0, amount, canvas.height)
+        ctx.fillRect(canvas.width - amount, 0, amount, canvas.height)
+    }
+    if (!isTooWide) {
+        let desiredHeight = canvas.width / aspectRatio;
+        amount = (canvas.height - desiredHeight) / 2;
+        ctx.fillRect(0, 0, canvas.width, amount)
+        ctx.fillRect(0, canvas.height - amount, canvas.width, amount)
+    }
+
     //Draw debugging information
-    let debug = true;
-    if(debug){
-        let y = 320;
-        for(let gameObject of scene.gameObjects){
+    let debug = false;
+    if (debug) {
+        let y = 50;
+        for (let gameObject of scene.gameObjects) {
             ctx.fillStyle = "white"
-            let string = gameObject.name + " (" + gameObject.transform.x + "," + gameObject.transform.y +")"
+            ctx.font = "20px Courier"
+            let string = gameObject.name + " (" + gameObject.transform.x + "," + gameObject.transform.y + ")"
             ctx.fillText(string, 50, y);
-            y+= 20;
+            y += 20;
         }
     }
 }
